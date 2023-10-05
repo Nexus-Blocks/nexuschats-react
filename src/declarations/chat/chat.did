@@ -1,0 +1,51 @@
+type User = 
+ record {
+   dateJoined: int;
+   email: opt text;
+   id: opt text;
+   userName: text;
+ };
+type Result_2 = 
+ variant {
+   err: text;
+   ok: vec DirectMessage;
+ };
+type Result_1 = 
+ variant {
+   err: text;
+   ok: User;
+ };
+type Result = 
+ variant {
+   err: text;
+   ok;
+ };
+type MessageBody = 
+ record {
+   image: opt text;
+   "text": opt text;
+   video: opt text;
+ };
+type DirectMessage = 
+ record {
+   body: MessageBody;
+   chatId: text;
+   created: int;
+   edited: bool;
+   messageId: text;
+   receiver: text;
+   sender: text;
+ };
+service : {
+  createUser: (User) -> () oneway;
+  deleteChat: (text) -> (Result);
+  deleteMessage: (text, text) -> (Result);
+  deleteUser: (text) -> () oneway;
+  editMessage: (DirectMessage) -> (Result);
+  getMessages: (text) -> (Result_2) query;
+  getUser: (text) -> (Result_1) query;
+  getUserChats: (text) -> (vec text) query;
+  getUsers: () -> (vec User) query;
+  sendMessage: (DirectMessage) -> (Result);
+  updateUser: (User) -> (Result);
+}
